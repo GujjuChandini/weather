@@ -3,5 +3,5 @@ services:
   weather-app:
     build: .
     ports:
-      - "8080:80"
+      - "3000:3000"
     container_name: weather-site
