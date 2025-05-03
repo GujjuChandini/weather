@@ -11,8 +11,8 @@ pipeline {
         stage('Deployment') {
             steps {
                 echo 'Building and running static site with Docker Compose...'
-                sh 'docker-compose down'
-                sh 'docker-compose up -d --build'
+                sh 'docker compose down'
+                sh 'docker compose up -d --build'
             }
         }
     }
