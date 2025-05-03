@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Cloning Repository') {
             steps {
-                git 'https://github.com/GujjuChandini/weather.git'
+                git branch: 'main', url: 'https://github.com/GujjuChandini/weather.git'
             }
         }
 
