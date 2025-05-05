@@ -12,23 +12,22 @@ pipeline {
             steps {
                 echo 'Checking Docker and Docker Compose environment...'
                 sh 'whoami'
-                sh 'which docker || echo "Docker not found in PATH"'
                 sh 'docker --version || echo "Docker not working"'
-                sh 'docker compose version || echo "Docker Compose not working or not installed properly"'
+                sh 'docker compose version || docker-compose --version || echo "Compose not working"'
 
                 echo 'Building and running static site with Docker Compose...'
-                sh 'docker compose down || echo "Failed to run docker compose down"'
-                sh 'docker compose up -d --build || echo "Failed to run docker compose up"'
+                sh 'docker compose down || docker-compose down || echo "Failed to bring down"'
+                sh 'docker compose up -d --build || docker-compose up -d --build || echo "Failed to bring up"'
             }
         }
     }
 
     post {
         success {
-            echo 'Deployment Success'
+            echo '✅ Deployment Success'
         }
         failure {
-            echo 'Deployment Failed'
+            echo '❌ Deployment Failed'
         }
     }
 }
