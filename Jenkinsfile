@@ -11,27 +11,27 @@ pipeline {
 
         stage('Deployment') {
             steps {
-                echo '🔍 Checking Docker and Docker Compose environment...'
+                echo '🔍 Checking Docker environment and deploying...'
                 sh '''
-                    echo "👤 Running as: $(whoami)"
-                    docker --version || echo "⚠️ Docker is not installed or not working"
-                    
-                    if command -v docker-compose &> /dev/null; then
-                        echo "✅ Using docker-compose"
-                        COMPOSE_CMD="docker-compose"
-                    elif docker compose version &> /dev/null; then
-                        echo "✅ Using docker compose"
-                        COMPOSE_CMD="docker compose"
+                    echo "👤 User: $(whoami)"
+                    docker --version
+                    docker compose version || docker-compose --version
+
+                    # Use docker compose (plugin) first; fallback to docker-compose (binary)
+                    if docker compose version &> /dev/null; then
+                        COMPOSE="docker compose"
+                    elif command -v docker-compose &> /dev/null; then
+                        COMPOSE="docker-compose"
                     else
-                        echo "❌ Neither docker-compose nor docker compose is available"
+                        echo "❌ Neither docker compose nor docker-compose is available!"
                         exit 1
                     fi
 
-                    echo "🛑 Stopping any existing containers..."
-                    $COMPOSE_CMD down || echo "⚠️ Failed to stop containers"
+                    echo "🛑 Bringing down previous containers..."
+                    $COMPOSE down || echo "⚠️ Failed to stop containers"
 
-                    echo "🚀 Building and starting containers..."
-                    $COMPOSE_CMD up -d --build || echo "❌ Failed to start containers"
+                    echo "🚀 Building and starting new containers..."
+                    $COMPOSE up -d --build || echo "❌ Failed to start containers"
                 '''
             }
         }
