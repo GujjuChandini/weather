@@ -9,13 +9,6 @@ pipeline {
             }
         }
 
-        stage('Cloning Repository') {
-            steps {
-                echo '📥 Cloning the repository...'
-                git 'https://github.com/GujjuChandini/weather.git'
-            }
-        }
-
         stage('Deployment') {
             steps {
                 echo '🔍 Checking Docker environment and deploying...'
