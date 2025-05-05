@@ -17,17 +17,16 @@ pipeline {
             steps {
                 echo '🔍 Checking Docker environment and deploying...'
                 sh '''
-                    echo 👤 User: $(whoami)
-                    echo 🐳 Docker version:
-                    docker --version
-                    echo 🐳 Docker Compose version:
-                    docker-compose --version
+                    # Ensure the script is run in bash
+                    /bin/bash -c "echo 👤 User: $(whoami)"
+                    /bin/bash -c "echo 🐳 Docker version: $(docker --version)"
+                    /bin/bash -c "echo 🐳 Docker Compose version: $(docker-compose --version)"
 
-                    echo 🧹 Stopping existing containers (if any)...
-                    docker-compose down || true
+                    /bin/bash -c "echo 🧹 Stopping existing containers (if any)..."
+                    /bin/bash -c "docker-compose down || true"
 
-                    echo 🚀 Starting deployment using Docker Compose...
-                    docker-compose up -d --build
+                    /bin/bash -c "echo 🚀 Starting deployment using Docker Compose..."
+                    /bin/bash -c "docker-compose up -d --build"
                 '''
             }
         }
