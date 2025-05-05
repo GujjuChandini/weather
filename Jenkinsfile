@@ -20,11 +20,11 @@ pipeline {
                     echo 👤 User: $(whoami)
                     echo 🐳 Checking Docker versions...
                     docker --version
-                    docker compose version
+                    docker-compose --version
 
-                    echo 🚀 Starting deployment using docker compose...
-                    docker compose down || true
-                    docker compose up -d --build
+                    echo 🚀 Starting deployment using docker-compose...
+                    docker-compose down || true
+                    docker-compose up -d --build
                 '''
             }
         }
