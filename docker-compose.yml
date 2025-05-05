@@ -1,7 +1,8 @@
 version: '3.8'
+
 services:
   weather-app:
     build: .
     ports:
-      - "3000:3000"
+      - "3000:80"  # Maps container port 80 (NGINX) to host port 3000
     container_name: weather-site
