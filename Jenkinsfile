@@ -21,13 +21,13 @@ pipeline {
                     echo 🐳 Docker version:
                     docker --version
                     echo 🐳 Docker Compose version:
-                    docker compose version
+                    docker-compose --version
 
                     echo 🧹 Stopping existing containers (if any)...
-                    docker compose down || true
+                    docker-compose down || true
 
                     echo 🚀 Starting deployment using Docker Compose...
-                    docker compose up -d --build
+                    docker-compose up -d --build
                 '''
             }
         }
