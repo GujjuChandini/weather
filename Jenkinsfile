@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_BUILDKIT = '1'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -14,16 +18,13 @@ pipeline {
                 echo '🔍 Checking Docker environment and deploying...'
                 sh '''
                     echo 👤 User: $(whoami)
-
                     echo 🐳 Checking Docker versions...
                     docker --version
                     docker compose version
 
-                    echo 🛑 Bringing down previous containers...
-                    docker compose down || echo ⚠️ Failed to stop containers
-
-                    echo 🚀 Building and starting new containers...
-                    docker compose up -d --build || echo ❌ Failed to start containers
+                    echo 🚀 Starting deployment using docker compose...
+                    docker compose down || true
+                    docker compose up -d --build
                 '''
             }
         }
@@ -31,7 +32,7 @@ pipeline {
 
     post {
         success {
-            echo '✅ Deployment Successful!'
+            echo '✅ Deployment completed successfully!'
         }
         failure {
             echo '❌ Deployment Failed!'
