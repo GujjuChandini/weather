@@ -18,13 +18,16 @@ pipeline {
                 echo '🔍 Checking Docker environment and deploying...'
                 sh '''
                     echo 👤 User: $(whoami)
-                    echo 🐳 Checking Docker versions...
+                    echo 🐳 Docker version:
                     docker --version
-                    docker-compose --version
+                    echo 🐳 Docker Compose version:
+                    docker compose version
 
-                    echo 🚀 Starting deployment using docker-compose...
-                    docker-compose down || true
-                    docker-compose up -d --build
+                    echo 🧹 Stopping existing containers (if any)...
+                    docker compose down || true
+
+                    echo 🚀 Starting deployment using Docker Compose...
+                    docker compose up -d --build
                 '''
             }
         }
